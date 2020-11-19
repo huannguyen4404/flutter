@@ -12,13 +12,40 @@ class MyWidget extends StatefulWidget {
   }
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _MyWidgetState extends State<MyWidget> with WidgetsBindingObserver {
   String _email = ''; // state
 
   final emailEditingCtl = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    print('Run initState()');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailEditingCtl.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    print('Run dispose()');
+  }
+
+  // when switch the app is in background/foreground mode ?
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      print('App is in Background mode');
+    } else if (state == AppLifecycleState.resumed) {
+      print('App is in Foreground mode');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('Run build()');
     return MaterialApp(
       title: 'Stateful Widget',
       home: Scaffold(
@@ -33,7 +60,7 @@ class _MyWidgetState extends State<MyWidget> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextField(
-                  // controller: emailEditingCtl,
+                  controller: emailEditingCtl,
                   onChanged: (text) => this.setState(() {
                     _email = text; // re-run build()
                   }),
