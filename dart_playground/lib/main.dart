@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'calculation.dart'; // calculation is a "module"
 import 'car.dart';
+import 'main.dart';
 
 void main() {
   /*
@@ -14,7 +15,7 @@ void main() {
     });
     */
   stringNumbers.forEach((str) {
-    print(str);
+    // print(str);
   });
   //How to init an object ?
   /*
@@ -56,7 +57,7 @@ void main() {
   //How to get a list of names ? Use "map"
   List<String> names = cars.map((car) => car.name).toList();
   names.forEach((name) {
-    print('name: $name');
+    // print('name: $name');
   });
   //Now we try with final and const(constant)
   const List<int> someNumbers = [1, 2, 3, 5];
