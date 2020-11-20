@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyWidget extends StatefulWidget {
+  // properties
   String name;
   int age;
 
