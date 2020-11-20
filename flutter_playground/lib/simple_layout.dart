@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'item.dart';
+
 class MyLayout extends StatefulWidget {
   @override
   _MyLayoutState createState() => _MyLayoutState();
@@ -8,8 +10,8 @@ class MyLayout extends StatefulWidget {
 
 class _MyLayoutState extends State<MyLayout> {
   // States
-  String _content;
-  double _money;
+  Item _item = Item(content: '', money: 0.0);
+  List<Item> _items = List<Item>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _contentController = TextEditingController();
@@ -31,7 +33,7 @@ class _MyLayoutState extends State<MyLayout> {
                 controller: _contentController,
                 onChanged: (text) {
                   setState(() {
-                    _content = text;
+                    _item.content = text;
                   });
                 },
               ),
@@ -40,21 +42,42 @@ class _MyLayoutState extends State<MyLayout> {
                 controller: _moneyController,
                 onChanged: (text) {
                   setState(() {
-                    _money = double.tryParse(text) ?? 0;
+                    _item.money = double.tryParse(text) ?? 0;
                   });
                 },
               ),
-              FlatButton(
-                child: Text("Collect"),
-                color: Colors.purple,
-                textColor: Colors.white,
-                onPressed: () {
-//                  print('Presses');
-                  _scaffoldKey.currentState.showSnackBar(SnackBar(
-                    content: Text('Content: $_content, money: $_money'),
-                    duration: Duration(seconds: 3),
-                  ));
-                },
+              Padding(padding: const EdgeInsets.symmetric(vertical: 10)),
+              ButtonTheme(
+                height: 50,
+                child: FlatButton(
+                  child: Text("Collect"),
+                  color: Colors.purple,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    setState(() {
+                      _items.add(_item);
+                      _item = Item(content: '', money: 0.0);
+                      _contentController.text = '';
+                      _moneyController.text = '';
+                    });
+                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      content: Text('Added: ${_items.toString()}'),
+                      duration: Duration(seconds: 3),
+                    ));
+                  },
+                ),
+              ),
+              Column(
+                children: _items.map((item) {
+                  return ListTile(
+                    leading: const Icon(Icons.check),
+                    title: Text(item.content),
+                    subtitle: Text('${item.money} \$'),
+                    onTap: () {
+                      print('Item: ${item.content}');
+                    },
+                  );
+                }).toList(),
               ),
             ],
           ),
