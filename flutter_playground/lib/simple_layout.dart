@@ -19,6 +19,37 @@ class _MyLayoutState extends State<MyLayout> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _buildListCards() {
+      int idx = 0;
+      return _items.map((item) {
+        idx++;
+        return Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          color: idx % 2 == 0 ? Colors.cyan : Colors.blueAccent,
+          elevation: 10,
+          child: ListTile(
+            leading: const Icon(Icons.check),
+            title: Text(
+              item.content,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+            subtitle: Text(
+              'Cost: ${item.money}\$',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            onTap: () {
+              print('Tapped on: ${item.content}');
+            },
+          ),
+        );
+      }).toList();
+    }
+
     return MaterialApp(
       title: 'Stateful Widget',
       home: Scaffold(
@@ -68,16 +99,7 @@ class _MyLayoutState extends State<MyLayout> {
                 ),
               ),
               Column(
-                children: _items.map((item) {
-                  return ListTile(
-                    leading: const Icon(Icons.check),
-                    title: Text(item.content),
-                    subtitle: Text('${item.money} \$'),
-                    onTap: () {
-                      print('Item: ${item.content}');
-                    },
-                  );
-                }).toList(),
+                children: _buildListCards(),
               ),
             ],
           ),
