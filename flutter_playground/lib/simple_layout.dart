@@ -18,12 +18,40 @@ class _MyLayoutState extends State<MyLayout> {
   final _contentController = TextEditingController();
   final _moneyController = TextEditingController();
 
+  void _addItem() {
+    setState(() {
+      _items.add(_item);
+      _item = Item(content: '', money: 0.0);
+      _contentController.text = '';
+      _moneyController.text = '';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Stateful Widget',
       home: Scaffold(
         key: _scaffoldKey,
+        appBar: AppBar(
+          title: const Text('Item List'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                setState(() {
+                  this._addItem();
+                });
+              },
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          tooltip: 'Press to Add',
+          backgroundColor: Colors.green,
+          child: Icon(Icons.add),
+          onPressed: () => this._addItem(),
+        ),
         body: SafeArea(
           minimum: EdgeInsets.only(left: 20, right: 20),
           child: SingleChildScrollView(
@@ -56,12 +84,7 @@ class _MyLayoutState extends State<MyLayout> {
                     color: Colors.purple,
                     textColor: Colors.white,
                     onPressed: () {
-                      setState(() {
-                        _items.add(_item);
-                        _item = Item(content: '', money: 0.0);
-                        _contentController.text = '';
-                        _moneyController.text = '';
-                      });
+                      this._addItem();
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content: Text('Added: ${_items.toString()}'),
                         duration: Duration(seconds: 3),
