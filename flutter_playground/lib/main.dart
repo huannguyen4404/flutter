@@ -8,6 +8,9 @@ void main() {
   runApp(
 //    MyWidget(name: 'Henry', age: 30),
 //    MyDate(),
-    MyLayout(),
+    MaterialApp(
+      title: 'Items Management App',
+      home: MyLayout(),
+    ),
   );
 }

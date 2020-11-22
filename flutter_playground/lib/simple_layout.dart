@@ -33,38 +33,16 @@ class _MyLayoutState extends State<MyLayout> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stateful Widget',
-      home: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: const Text('Item List'),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                setState(() {
-                  this._addItem();
-                });
-              },
-            )
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Press to Add',
-          backgroundColor: Colors.green,
-          child: Icon(Icons.add),
-          onPressed: () => this._addItem(),
-        ),
-        body: SafeArea(
-          minimum: EdgeInsets.only(left: 20, right: 20),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextField(
+  void _showBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          // TODO: Separate form to a widget file.
+          return Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
                   decoration: InputDecoration(labelText: 'Content'),
                   controller: _contentController,
                   onChanged: (text) {
@@ -73,8 +51,11 @@ class _MyLayoutState extends State<MyLayout> {
                     });
                   },
                 ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Earned money'),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  decoration: InputDecoration(labelText: 'Amount(money)'),
                   controller: _moneyController,
                   onChanged: (text) {
                     setState(() {
@@ -82,25 +63,83 @@ class _MyLayoutState extends State<MyLayout> {
                     });
                   },
                 ),
-                Padding(padding: const EdgeInsets.symmetric(vertical: 10)),
-                ButtonTheme(
-                  height: 50,
-                  child: FlatButton(
-                    child: Text("Collect"),
-                    color: Colors.purple,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      this._addItem();
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
-                        content: Text('Added: ${_items.toString()}'),
-                        duration: Duration(seconds: 3),
-                      ));
-                    },
-                  ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        child: RaisedButton(
+                          color: Colors.teal,
+                          child: Text(
+                            'Save',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            print('press Save');
+                            this._addItem();
+                            //dismiss after inserting
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        height: 50,
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(left: 10)),
+                    Expanded(
+                      child: SizedBox(
+                        child: RaisedButton(
+                          color: Colors.pinkAccent,
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            print('Press cancel');
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        height: 50,
+                      ),
+                    )
+                  ],
                 ),
-                ItemList(items: _items),
-              ],
-            ),
+              ),
+              //ok button
+            ],
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: const Text('Item List'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _showBottomSheet(),
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Press to Add',
+        backgroundColor: Colors.green,
+        child: Icon(Icons.add),
+        onPressed: () => _showBottomSheet(),
+      ),
+      body: SafeArea(
+        minimum: EdgeInsets.only(left: 20, right: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ItemList(items: _items),
+            ],
           ),
         ),
       ),
