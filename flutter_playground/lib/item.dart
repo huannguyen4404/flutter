@@ -1,8 +1,9 @@
 class Item {
   String content;
   double money;
+  DateTime createdAt;
 
-  Item({this.content, this.money});
+  Item({this.content, this.money, this.createdAt});
 
   @override
   String toString() {

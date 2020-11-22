@@ -19,7 +19,13 @@ class _MyLayoutState extends State<MyLayout> {
   final _moneyController = TextEditingController();
 
   void _addItem() {
+    // basic validation
+    if (_item.content.isEmpty || _item.money == 0.0 || _item.money.isNaN) {
+      return;
+    }
+
     setState(() {
+      _item.createdAt = DateTime.now();
       _items.add(_item);
       _item = Item(content: '', money: 0.0);
       _contentController.text = '';
