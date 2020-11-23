@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foods_app/routes.dart';
 import 'package:foods_app/category_screen.dart';
 
 void main() => runApp(MyApp());
@@ -9,6 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Food App with Navigation',
+      initialRoute: '/',
+      routes: routes,
       theme: ThemeData(
         primarySwatch: Colors.cyan,
         fontFamily: 'Itim',
