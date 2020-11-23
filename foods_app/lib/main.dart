@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foods_app/theme.dart';
 import 'package:foods_app/routes.dart';
-import 'package:foods_app/category_screen.dart';
+import 'package:foods_app/screens/category/category_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,19 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Food App with Navigation',
       initialRoute: '/',
       routes: routes,
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-        fontFamily: 'Itim',
-        textTheme: ThemeData.light().textTheme.copyWith(
-              bodyText1: TextStyle(color: Color.fromRGBO(20, 52, 52, 1)),
-              bodyText2: TextStyle(color: Color.fromRGBO(20, 52, 52, 1)),
-              headline6: TextStyle(
-                fontSize: 28,
-                color: Colors.white,
-                fontFamily: 'Sunshiney',
-              ),
-            ),
-      ),
+      theme: appTheme(),
       home: Scaffold(
         appBar: AppBar(
           // centerTitle: false,
